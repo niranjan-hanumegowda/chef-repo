@@ -19,3 +19,6 @@
 package "lsof" do
   action [:install]
 end
+
+log "Just completed installing lsof...."
+
