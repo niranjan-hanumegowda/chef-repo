@@ -2,6 +2,7 @@ name "graylog2"
 description "graylog2 role"
 run_list [
     "recipe[elasticsearch]", 
+    "recipe[mongodb::10gen_repo]",
     "recipe[mongodb]"
     ]
 override_attributes(

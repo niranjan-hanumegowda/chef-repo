@@ -8,12 +8,12 @@
   "platforms": {
   },
   "dependencies": {
-    "ark": ">= 0.0.0"
+    "ark": ">= 0.0.0",
+    "java": ">= 0.0.0"
   },
   "recommendations": {
     "build-essential": ">= 0.0.0",
     "xml": ">= 0.0.0",
-    "java": ">= 0.0.0",
     "monit": ">= 0.0.0"
   },
   "suggestions": {
