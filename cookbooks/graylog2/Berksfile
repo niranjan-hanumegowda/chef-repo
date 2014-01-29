@@ -1,8 +1,4 @@
 metadata
 
-cookbook 'yum', git: 'git://github.com/opscode-cookbooks/yum.git'
+cookbook 'elasticsearch', git: 'git://github.com/elasticsearch/cookbook-elasticsearch.git'
 
-cookbook 'ark',  git: 'git://github.com/opscode-cookbooks/ark.git'
-cookbook 'java', git: 'git://github.com/opscode-cookbooks/java.git'
-
-cookbook 'minitest-handler', git: 'git://github.com/btm/minitest-handler-cookbook.git'
