@@ -53,12 +53,12 @@ end
 
 # Create service
 #
-template "/etc/init.d/mongodb" do
-  source "mongodb.init.erb"
+template "/etc/init.d/mongod" do
+  source "mongod.init.erb"
   owner 'root' and mode 0755
 end
 
-service "mongodb" do
+service "mongod" do
   supports :status => true, :restart => true
   action [ :enable ]
 end
@@ -78,8 +78,8 @@ ark "mongodb" do
   prefix_root   ark_prefix_root
   prefix_home   ark_prefix_home
 
-  notifies :start,   'service[mongodb]'
-  notifies :restart, 'service[mongodb]' unless node.mongodb[:skip_restart]
+  notifies :start,   'service[mongod]'
+  notifies :restart, 'service[mongod]' unless node.mongodb[:skip_restart]
 
   not_if do
     link   = "#{node.mongodb[:dir]}/mongodb"
@@ -106,7 +106,7 @@ log "increase limits for the mongodb user"
 
 file "/etc/security/limits.d/10-mongodb.conf" do
   content <<-END.gsub(/^    /, '')
-    #{node.mongodb.fetch(:user, "mongodb")}     -    nofile    #{node.mongodb[:limits][:nofile]}
-    #{node.mongodb.fetch(:user, "mongodb")}     -    memlock   #{node.mongodb[:limits][:memlock]}
+    #{node.mongodb.fetch(:user, "mongod")}     -    nofile    #{node.mongodb[:limits][:nofile]}
+    #{node.mongodb.fetch(:user, "mongod")}     -    memlock   #{node.mongodb[:limits][:memlock]}
   END
 end

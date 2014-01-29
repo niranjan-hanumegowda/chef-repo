@@ -17,7 +17,7 @@ default.mongodb[:repository]      = "linux"
 default.mongodb[:filename]        = "mongodb-#{node.mongodb[:repository]}-#{node['machine']}-#{node.mongodb[:version]}.tgz"
 
 
-default.mongodb[:user]            = "mongodb"
+default.mongodb[:user]            = "mongod"
 default.mongodb[:dir]             = "/usr/local"
 
 # === LIMITS
