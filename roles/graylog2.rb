@@ -8,4 +8,7 @@ override_attributes(
   :elasticsearch => {
     :version => "0.90.10"
   }
+  :mongodb => {
+    :package_version: "2.4.9"
+  }
 )

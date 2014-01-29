@@ -8,10 +8,10 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.markdown'))
 version          "0.3.7"
 
 depends 'ark'
+requires 'java'
 
 recommends 'build-essential'
 recommends 'xml'
-recommends 'java'
 recommends 'monit'
 
 provides 'elasticsearch'
