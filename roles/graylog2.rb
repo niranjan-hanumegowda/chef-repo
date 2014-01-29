@@ -1,8 +1,8 @@
 name "graylog2"
 description "graylog2 role"
 run_list [
+    "recipe[java]",
     "recipe[elasticsearch]", 
-    "recipe[mongodb::10gen_repo]",
     "recipe[mongodb]"
     ]
 override_attributes(
@@ -11,8 +11,5 @@ override_attributes(
   },
   :elasticsearch => {
     :version => "0.90.10"
-  },
-  :mongodb => {
-    :package_name => "mongodb"
   }
 )
