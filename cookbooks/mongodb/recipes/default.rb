@@ -112,7 +112,7 @@ file "/etc/security/limits.d/10-mongodb.conf" do
 end
 
 template "/etc/sysconfig/mongod" do
-  source  mongod.sysconfig.erb
+  source  'mongod.sysconfig.erb'
   owner 'root'
   group 'root'
   mode '0644'
