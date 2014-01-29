@@ -5,10 +5,13 @@ run_list [
     "recipe[mongodb]"
     ]
 override_attributes(
+  :java => {
+    :jdk_version => "7"
+  }
   :elasticsearch => {
     :version => "0.90.10"
   }
   :mongodb => {
-    :package_version: "2.4.9"
+    :package_version => "2.4.9"
   }
 )
