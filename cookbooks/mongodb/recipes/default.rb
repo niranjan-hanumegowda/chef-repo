@@ -110,3 +110,13 @@ file "/etc/security/limits.d/10-mongodb.conf" do
     #{node.mongodb.fetch(:user, "mongod")}     -    memlock   #{node.mongodb[:limits][:memlock]}
   END
 end
+
+template "/etc/sysconfig/mongod" do
+  source  mongod.sysconfig.erb
+  owner 'root'
+  group 'root'
+  mode '0644'
+
+  notifies :start,   'service[mongod]'
+  notifies :restart, 'service[mongod]' unless node.mongodb[:skip_restart]
+end
