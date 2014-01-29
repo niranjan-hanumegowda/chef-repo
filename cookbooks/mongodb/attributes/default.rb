@@ -14,7 +14,7 @@ node.normal[:mongodb]    = DeepMerge.merge(node.normal[:mongodb].to_hash, settin
 default.mongodb[:version]         = "2.2.27"
 default.mongodb[:url]             = "http://fastdl.mongodb.org"
 default.mongodb[:repository]      = "linux"
-default.mongodb[:filename]        = "mongodb-#{node.mongodb[:repository]}-#{node['machine']}-#{node.mongodb[:version].tgz}"
+default.mongodb[:filename]        = "mongodb-#{node.mongodb[:repository]}-#{node['machine']}-#{node.mongodb[:version]}.tgz"
 
 
 default.mongodb[:user]            = "mongodb"
