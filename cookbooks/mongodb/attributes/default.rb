@@ -19,3 +19,12 @@ default.mongodb[:filename]        = "mongodb-#{node.mongodb[:repository]}-#{node
 
 default.mongodb[:user]            = "mongodb"
 default.mongodb[:dir]             = "/usr/local"
+
+# === LIMITS
+#
+# By default, the `mlockall` is set to true: on weak machines and Vagrant boxes,
+# you may want to disable it.
+#
+default.mongodb[:bootstrap][:mlockall] = ( node.memory.total.to_i >= 1048576 ? true : false )
+default.mongodb[:limits][:memlock] = 'unlimited'
+default.mongodb[:limits][:nofile]  = '64000'
