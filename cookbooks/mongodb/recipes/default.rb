@@ -91,7 +91,7 @@ ark "mongodb" do
 end
 
 link "/usr/bin/mongod" do
-  to "#{node.mongodb[:dir]}/mongodb/bin/mongo"
+  to "#{node.mongodb[:dir]}/mongodb/bin/mongod"
 end
 
 # Increase open file and memory limits
