@@ -23,7 +23,8 @@ default.mongodb[:dir]             = "/usr/local"
 default.mongodb[:configfile]      = "/etc/mongod.conf"
 default.mongodb[:port]            = "27017"
 default.mongodb[:dbpath]          = "/var/lib/mongodb"
-default.mongodb[:log]             = "/var/log/mongodb/mongod.log"
+default.mongodb[:logpath]         = "/var/log/mongodb/mongod.log"
+default.mongodb[:bind_ip]         = "0.0.0.0"
 
 # === LIMITS
 #
@@ -34,11 +35,9 @@ default.mongodb[:bootstrap][:mlockall] = ( node.memory.total.to_i >= 1048576 ? t
 default.mongodb[:limits][:memlock] = 'unlimited'
 default.mongodb[:limits][:nofile]  = '64000'
 
-default.mongodb['sysconfig']['DAEMON'] = "/usr/bin/mongod"
+default.mongodb['sysconfig']['DAEMON'] = "/usr/local/bin/mongod"
 default.mongodb['sysconfig']['DAEMON_USER'] = node['mongodb']['user']
 default.mongodb['sysconfig']['CONFIGFILE'] = node['mongodb']['configfile']
 default.mongodb['sysconfig']['PORT'] = node['mongodb']['port']
-default.mongodb['sysconfig']['DBPATH'] = node['mongodb']['dbpath']
-default.mongodb['sysconfig']['LOG'] = node['mongodb']['log']
-default.mongodb['sysconfig']['DAEMON_OPTS'] = "--config $CONFIGFILE --port $PORT --dbpath $DBPATH --logpath $LOG --fork"
+default.mongodb['sysconfig']['DAEMON_OPTS'] = "--config $CONFIGFILE --port $PORT"
 default.mongodb['sysconfig']['ENABLE_MONGODB'] = "yes"
