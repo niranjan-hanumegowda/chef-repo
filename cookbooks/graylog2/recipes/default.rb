@@ -95,6 +95,6 @@ template "/etc/graylog2-server.conf" do
   source "graylog2.conf.erb"
   owner 'root' and group 'root' and mode 0755
 
-  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
+  notifies :restart, 'service[graylog2-server]' unless node.graylog2[:skip_restart]
 end
 
