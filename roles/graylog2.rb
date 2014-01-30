@@ -3,7 +3,8 @@ description "graylog2 role"
 run_list [
     "recipe[java]",
     "recipe[elasticsearch]", 
-    "recipe[mongodb]"
+    "recipe[mongodb]",
+    "recipe[graylog2]"
     ]
 override_attributes(
   :java => {
