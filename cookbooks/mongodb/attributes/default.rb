@@ -20,7 +20,7 @@ default.mongodb[:download_url]    = [node.mongodb[:host], node.mongodb[:reposito
 
 default.mongodb[:user]            = "mongod"
 default.mongodb[:dir]             = "/usr/local"
-default.mongodb[:configfile]      = "/etc/mongodb.conf"
+default.mongodb[:configfile]      = "/etc/mongod.conf"
 default.mongodb[:port]            = "27017"
 default.mongodb[:dbpath]          = "/var/lib/mongodb"
 default.mongodb[:log]             = "/var/log/mongodb/mongod.log"

@@ -90,6 +90,10 @@ ark "mongodb" do
   end
 end
 
+link "/usr/bin/mongod" do
+  to "#{node.mongodb[:dir]}/mongodb/bin/mongo"
+end
+
 # Increase open file and memory limits
 #
 bash "enable user limits" do
@@ -113,6 +117,16 @@ end
 
 template "/etc/sysconfig/mongod" do
   source  'mongod.sysconfig.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+
+  notifies :start,   'service[mongod]'
+  notifies :restart, 'service[mongod]' unless node.mongodb[:skip_restart]
+end
+
+template "/etc/mongod.conf" do
+  source  'mongod.conf.erb'
   owner 'root'
   group 'root'
   mode '0644'
