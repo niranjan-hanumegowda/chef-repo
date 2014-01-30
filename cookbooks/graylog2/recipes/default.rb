@@ -34,7 +34,7 @@ end
 
 user node.graylog2[:user] do
   comment  "graylog2 User"
-  home     "#{node.graylog2[:dir]}/graylog2"
+  home     "#{node.graylog2[:dir]}/graylog2-server"
   shell    "/bin/bash"
   gid      node.graylog2[:user]
   supports :manage_home => false
@@ -45,9 +45,9 @@ end
 # FIX: Work around the fact that Chef creates the directory even for `manage_home: false`
 bash "remove the graylog2 user home" do
   user     'root'
-  code     "rm -rf  #{node.graylog2[:dir]}/graylog2"
-  not_if   "test -L #{node.graylog2[:dir]}/graylog2"
-  only_if  "test -d #{node.graylog2[:dir]}/graylog2"
+  code     "rm -rf  #{node.graylog2[:dir]}/graylog2-server"
+  not_if   "test -L #{node.graylog2[:dir]}/graylog2-server"
+  only_if  "test -d #{node.graylog2[:dir]}/graylog2-server"
 end
 
 
@@ -56,7 +56,7 @@ end
 ark_prefix_root = node.graylog2[:dir] || node.ark[:prefix_root]
 ark_prefix_home = node.graylog2[:dir] || node.ark[:prefix_home]
 
-ark "graylog2" do
+ark "graylog2-server" do
   url   node.graylog2[:download_url]
   owner node.graylog2[:user]
   group node.graylog2[:user]
@@ -66,8 +66,8 @@ ark "graylog2" do
   prefix_root   ark_prefix_root
   prefix_home   ark_prefix_home
 
-  notifies :start,   'service[graylog2]'
-  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
+  notifies :start,   'service[graylog2-server]'
+  notifies :restart, 'service[graylog2-server]' unless node.graylog2[:skip_restart]
 
   not_if do
     link   = "#{node.graylog2[:dir]}/graylog2-server"
@@ -80,11 +80,11 @@ end
 
 # Create service
 #
-link "/etc/init.d/graylog2" do
+link "/etc/init.d/graylog2-server" do
   to "#{node.graylog2[:dir]}/graylog2-server/bin/graylog2ctl"
 end
 
-service "graylog2" do
+service "graylog2-server" do
   supports :status => true, :restart => true
   action [ :enable ]
 end
