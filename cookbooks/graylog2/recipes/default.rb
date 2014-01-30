@@ -50,17 +50,6 @@ bash "remove the graylog2 user home" do
   only_if  "test -d #{node.graylog2[:dir]}/graylog2"
 end
 
-# Create service
-#
-template "/etc/init.d/graylog2" do
-  source "graylog2.init.erb"
-  owner 'root' and mode 0755
-end
-
-service "graylog2" do
-  supports :status => true, :restart => true
-  action [ :enable ]
-end
 
 # Download, extract, symlink the graylog2 libraries and binaries
 #
@@ -72,7 +61,7 @@ ark "graylog2" do
   owner node.graylog2[:user]
   group node.graylog2[:user]
   version node.graylog2[:version]
-  has_binaries ['bin/graylog2', 'bin/plugin']
+  has_binaries ['bin/graylog2ctl']
   checksum node.graylog2[:checksum]
   prefix_root   ark_prefix_root
   prefix_home   ark_prefix_home
@@ -81,28 +70,30 @@ ark "graylog2" do
   notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
 
   not_if do
-    link   = "#{node.graylog2[:dir]}/graylog2"
-    target = "#{node.graylog2[:dir]}/graylog2-#{node.graylog2[:version]}"
-    binary = "#{target}/bin/graylog2"
+    link   = "#{node.graylog2[:dir]}/graylog2-server"
+    target = "#{node.graylog2[:dir]}/graylog2-server-#{node.graylog2[:version]}"
+    binary = "#{target}/bin/graylog2ctl"
 
     ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)
   end
 end
 
-# Create config files
+# Create service
 #
-template "graylog2.yml" do
-  path   "#{node.graylog2[:dir]}/graylog2.yml"
-  source "graylog2.yml.erb"
-  owner node.graylog2[:user] and group node.graylog2[:user] and mode 0755
-
-  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
+link "/etc/init.d/graylog2" do
+  to "#{node.graylog2[:dir]}/graylog2-server/bin/graylog2ctl"
 end
 
-template "graylog2.conf" do
-  path   "#{node.graylog2[:dir]}/graylog2.conf"
+service "graylog2" do
+  supports :status => true, :restart => true
+  action [ :enable ]
+end
+
+# Create config files
+#
+template "/etc/graylog2-server.conf" do
   source "graylog2.conf.erb"
-  owner node.graylog2[:user] and group node.graylog2[:user] and mode 0755
+  owner 'root' and group 'root' and mode 0755
 
   notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
 end

@@ -13,18 +13,16 @@ node.normal[:graylog2]    = DeepMerge.merge(node.normal[:graylog2].to_hash, sett
 
 # === VERSION AND LOCATION
 #
-default.graylog2[:version]       = "0.90.5"
-default.graylog2[:host]          = "http://download.graylog2.org"
-default.graylog2[:repository]    = "graylog2/graylog2"
-default.graylog2[:filename]      = "graylog2-#{node.graylog2[:version]}.tar.gz"
-default.graylog2[:download_url]  = [node.graylog2[:host], node.graylog2[:repository], node.graylog2[:filename]].join('/')
-
-# === NAMING
-#
-default.graylog2[:cluster][:name] = 'graylog2'
-default.graylog2[:node][:name]    = node.name
+default.graylog2[:version]       = "0.20.0-rc.1-1"
+default.graylog2[:download_url]  = "https://github.com/Graylog2/graylog2-server/releases/download/#{node.graylog2[:version]}/graylog2-server-#{node.graylog2[:version]}.tgz"
 
 # === USER & PATHS
 #
 default.graylog2[:dir]       = "/usr/local"
 default.graylog2[:user]      = "graylog2"
+
+# === SETTINGS
+#
+default.graylog2[:settings][:password_secret]    = "i@m@l0ng64b1tm3ss@g3w@1t1ngt0b3d3c0d3dbr1ng1t0nb1tch0k@y12m0r3t0g0"
+default.graylog2[:settings][:root_password_sha2] = "d32376994ba5d1e088564a8fefe258e3fdc33c8476fac7452b5d17bef9a68803"
+default.graylog2[:settings][:elasticsearch_discovery_zen_ping_unicast_hosts] = "127.0.0.1:9300"
