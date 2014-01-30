@@ -38,6 +38,5 @@ default.mongodb[:limits][:nofile]  = '64000'
 default.mongodb['sysconfig']['DAEMON'] = "/usr/local/bin/mongod"
 default.mongodb['sysconfig']['DAEMON_USER'] = node['mongodb']['user']
 default.mongodb['sysconfig']['CONFIGFILE'] = node['mongodb']['configfile']
-default.mongodb['sysconfig']['PORT'] = node['mongodb']['port']
-default.mongodb['sysconfig']['DAEMON_OPTS'] = "--config $CONFIGFILE --port $PORT"
+default.mongodb['sysconfig']['DAEMON_OPTS'] = "--config $CONFIGFILE"
 default.mongodb['sysconfig']['ENABLE_MONGODB'] = "yes"
