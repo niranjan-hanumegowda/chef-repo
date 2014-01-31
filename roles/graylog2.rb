@@ -12,6 +12,9 @@ override_attributes(
     :jdk_version => "7"
   },
   :elasticsearch => {
-    :version => "0.90.10"
+    :version => "0.90.10",
+    :cluster => {
+      :name => "graylog2"
+    }
   }
 )

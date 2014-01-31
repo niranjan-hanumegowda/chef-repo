@@ -61,7 +61,7 @@ ark "graylog2-web" do
   owner node.graylog2[:user]
   group node.graylog2[:user]
   version node.graylog2[:version]
-  has_binaries ['bin/graylog-web-interface']
+  has_binaries ['bin/graylog2-web-interface']
   checksum node.graylog2[:checksum]
   prefix_root   ark_prefix_root
   prefix_home   ark_prefix_home
