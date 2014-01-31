@@ -93,7 +93,7 @@ link "/etc/init.d/graylog2-web" do
   to "#{node.graylog2[:dir]}/graylog2-web-interface/bin/graylog2-web-interface"
 end
 
-service "graylog2" do
+service "graylog2-web" do
   supports :restart => true
   action [ :nothing ]
 end

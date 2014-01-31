@@ -5,7 +5,7 @@ run_list [
     "recipe[elasticsearch]", 
     "recipe[mongodb]",
     "recipe[graylog2]",
-    "recipe[graylog2::web]
+    "recipe[graylog2::web]"
     ]
 override_attributes(
   :java => {
