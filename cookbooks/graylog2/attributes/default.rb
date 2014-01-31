@@ -15,6 +15,7 @@ node.normal[:graylog2]    = DeepMerge.merge(node.normal[:graylog2].to_hash, sett
 #
 default.graylog2[:version]       = "0.20.0-rc.1-1"
 default.graylog2[:download_url]  = "https://github.com/Graylog2/graylog2-server/releases/download/#{node.graylog2[:version]}/graylog2-server-#{node.graylog2[:version]}.tgz"
+default.graylog2[:web_download_url]  = "https://github.com/Graylog2/graylog2-web-interface/releases/download/#{node.graylog2[:version]}/graylog2-web-interface-#{node.graylog2[:version]}.tgz"
 
 # === USER & PATHS
 #
