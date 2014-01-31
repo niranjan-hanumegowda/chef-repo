@@ -51,11 +51,11 @@ bash "remove the mongodb user home" do
 end
 
 directory "/var/log/mongodb" do
-  owner node.mongodb[:user] and group node.mongodb[:user] and mode 755
+  owner node.mongodb[:user] and group node.mongodb[:user] and mode 0755
 end
 
 directory "/var/lib/mongodb" do
-  owner node.mongodb[:user] and group node.mongodb[:user] and mode 755
+  owner node.mongodb[:user] and group node.mongodb[:user] and mode 0755
 end
 
 
