@@ -90,7 +90,7 @@ end
 # Create service
 #
 link "/etc/init.d/graylog2" do
-  to "#{node.graylog2[:dir]}/graylog2-server/bin/graylog2ctl"
+  to "#{node.graylog2[:dir]}/graylog2/bin/graylog2ctl"
 end
 
 service "graylog2" do
