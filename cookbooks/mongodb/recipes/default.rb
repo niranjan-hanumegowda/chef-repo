@@ -50,6 +50,14 @@ bash "remove the mongodb user home" do
   only_if "test -d #{node.mongodb[:dir]}/mongodb"
 end
 
+directory "/var/log/mongodb" do
+  owner node.mongodb[:user] and group node.mongodb[:user] and mode 755
+end
+
+directory "/var/lib/mongodb" do
+  owner node.mongodb[:user] and group node.mongodb[:user] and mode 755
+end
+
 
 # Create service
 #

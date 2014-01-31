@@ -34,7 +34,7 @@ end
 
 user node.graylog2[:user] do
   comment  "graylog2 User"
-  home     "#{node.graylog2[:dir]}/graylog2-server"
+  home     "#{node.graylog2[:dir]}/graylog2"
   shell    "/bin/bash"
   gid      node.graylog2[:user]
   supports :manage_home => false
@@ -45,9 +45,9 @@ end
 # FIX: Work around the fact that Chef creates the directory even for `manage_home: false`
 bash "remove the graylog2 user home" do
   user     'root'
-  code     "rm -rf  #{node.graylog2[:dir]}/graylog2-server"
-  not_if   "test -L #{node.graylog2[:dir]}/graylog2-server"
-  only_if  "test -d #{node.graylog2[:dir]}/graylog2-server"
+  code     "rm -rf  #{node.graylog2[:dir]}/graylog2"
+  not_if   "test -L #{node.graylog2[:dir]}/graylog2"
+  only_if  "test -d #{node.graylog2[:dir]}/graylog2"
 end
 
 
@@ -56,7 +56,7 @@ end
 ark_prefix_root = node.graylog2[:dir] || node.ark[:prefix_root]
 ark_prefix_home = node.graylog2[:dir] || node.ark[:prefix_home]
 
-ark "graylog2-server" do
+ark "graylog2" do
   url   node.graylog2[:download_url]
   owner node.graylog2[:user]
   group node.graylog2[:user]
@@ -66,35 +66,35 @@ ark "graylog2-server" do
   prefix_root   ark_prefix_root
   prefix_home   ark_prefix_home
 
-  notifies :start,   'service[graylog2-server]'
-  notifies :restart, 'service[graylog2-server]' unless node.graylog2[:skip_restart]
+  notifies :start,   'service[graylog2]'
+  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
 
   not_if do
-    link   = "#{node.graylog2[:dir]}/graylog2-server"
-    target = "#{node.graylog2[:dir]}/graylog2-server-#{node.graylog2[:version]}"
+    link   = "#{node.graylog2[:dir]}/graylog2"
+    target = "#{node.graylog2[:dir]}/graylog2-#{node.graylog2[:version]}"
     binary = "#{target}/bin/graylog2ctl"
 
     ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)
   end
 end
 
+# Create config files
+#
+template "/etc/graylog2.conf" do
+  source "graylog2.conf.erb"
+  owner 'root' and group 'root' and mode 0644
+
+  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
+end
+
 # Create service
 #
-link "/etc/init.d/graylog2-server" do
+link "/etc/init.d/graylog2" do
   to "#{node.graylog2[:dir]}/graylog2-server/bin/graylog2ctl"
 end
 
-service "graylog2-server" do
+service "graylog2" do
   supports :status => true, :restart => true
-  action [ :enable ]
-end
-
-# Create config files
-#
-template "/etc/graylog2-server.conf" do
-  source "graylog2.conf.erb"
-  owner 'root' and group 'root' and mode 0755
-
-  notifies :restart, 'service[graylog2-server]' unless node.graylog2[:skip_restart]
+  action [ :nothing ]
 end
 
