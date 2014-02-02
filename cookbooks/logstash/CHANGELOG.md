@@ -1,13 +1,12 @@
-logstash CHANGELOG
-==================
+0.2.1 (June 26, 2012)
+---------------------
 
-This file is used to list changes made in each version of the logstash cookbook.
+New features
+	* Use ruby hashes supplied by roles to populate inputs, filters,
+	and outputs
+	* redhat-family support
+	* change default version of logstash to 1.1.1preview
+	* add in Travis-CI support
 
-0.1.0
------
-- [your_name] - Initial release of logstash
-
-- - -
-Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
-
-The [Github Flavored Markdown page](http://github.github.com/github-flavored-markdown/) describes the differences between markdown on github and standard markdown.
+Bug fixes
+	* keep apache default site from obscuring kibana
