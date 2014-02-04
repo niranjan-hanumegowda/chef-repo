@@ -14,7 +14,7 @@ override_attributes(
         {
           file: {
             type: 'syslog',
-            path: ["/var/log/*.log"],
+            path: ["/var/log/logstash/*.log"],
             exclude: ["*.gz"],
             debug: true
           }
@@ -41,8 +41,6 @@ override_attributes(
           gelf: {
             host: '192.168.33.11',
             port: '12201',
-            full_message: "%{message}",
-            type: "%{type}"
           }
         }
       ]
