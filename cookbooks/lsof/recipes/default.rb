@@ -16,9 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-package "lsof" do
-  action [:install]
-end
+%w(lsof telnet nc).each do |p|
+  package p do
+    action [:install]
+  end
 
-log "Just completed installing lsof...."
+  log "Just completed installing #{p}.."
+end
 

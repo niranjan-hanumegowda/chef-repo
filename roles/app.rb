@@ -35,12 +35,14 @@ override_attributes(
       ],
       outputs: [
         {
+          stdout: {
+            codec: 'rubydebug'
+          },
           gelf: {
             host: '192.168.33.11',
             port: '12201',
             full_message: "%{message}",
-            type: "%{type}",
-            custom_fields: [ "ip", node.ipaddress ],
+            type: "%{type}"
           }
         }
       ]
