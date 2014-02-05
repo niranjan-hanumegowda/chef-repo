@@ -79,13 +79,14 @@ ark "graylog2-web" do
 end
 
 if Chef::Config[:solo]
-  graylog2_servers = node['ipaddress']
+  graylog2_servers = 'http://' + node.ipaddress + ':12900/'
 else
   es_results = search(:node, node.graylog2['elasticsearch_query'])
   if !es_results.empty?
-    graylog2_servers = es_results.each { |n| 'http://' + n['ipaddress'] + ':12900/' }.join(',')
+    graylog2_servers = es_results.map { |n| 'http://' + n.ipaddress + ':12900/' }.join(',')
   else
-    graylog2_servers = node['ipaddress']
+    log "Oops..Search results for Graylog2 Servers returned empty!! Settling for http://#{node.ipaddress}:12900/"
+    graylog2_servers = 'http://' + node.ipaddress + ':12900/'
   end
 end
 
@@ -107,7 +108,7 @@ link "/etc/init.d/graylog2-web" do
 end
 
 service "graylog2-web" do
-  supports :restart => true
+  supports :restart => false
   action [ :nothing ]
 end
 

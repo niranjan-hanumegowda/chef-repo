@@ -79,13 +79,15 @@ ark "graylog2" do
 end
 
 if Chef::Config[:solo]
-  es_servers = node['ipaddress']
+  es_servers = node['ipaddress'] + ':9300'
 else
   es_results = search(:node, node.graylog2['elasticsearch_query'])
   if !es_results.empty?
-    es_servers = es_results.each { |n| n['ipaddress'] + ':9300' }.join(',')
+    ###es_servers = es_results.map { |n| n.ipaddress + ':9300' }.join(',')
+    es_servers = es_results.map { |n| n.ipaddress + ':9300' }
   else
-    es_servers = node['ipaddress']
+    log "Oops..Search results for ES Servers returned empty!! Settling for #{node.ipaddress}:9300"
+    es_servers = node['ipaddress'] + ':9300'
   end
 end
 
