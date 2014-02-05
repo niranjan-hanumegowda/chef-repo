@@ -94,7 +94,9 @@ end
 template "#{node.graylog2[:dir]}/graylog2-web/conf/graylog2-web-interface.conf" do
   source "graylog2-web-interface.conf.erb"
   owner node.graylog2[:user] and group node.graylog2[:user] and mode 0644
-
+  variables(
+            :graylog2_servers => graylog2_servers
+           )
   notifies :restart, 'service[graylog2-web]' unless node.graylog2[:skip_restart]
 end
 
