@@ -71,7 +71,7 @@ elasticsearch_node_data = false
 elasticsearch_http_enabled = false
 
 elasticsearch_discovery_zen_ping_multicast_enabled = false
-elasticsearch_discovery_zen_ping_unicast_hosts = <%= node.graylog2[:settings][:elasticsearch_discovery_zen_ping_unicast_hosts] %>
+elasticsearch_discovery_zen_ping_unicast_hosts = <%= @es_servers %>
 
 
 # Analyzer (tokenizer) to use for message and full_message field. The "standard" filter usually is a good idea.

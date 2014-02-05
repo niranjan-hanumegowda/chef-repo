@@ -78,6 +78,17 @@ ark "graylog2" do
   end
 end
 
+if Chef::Config[:solo]
+  es_servers = node['ipaddress']
+else
+  es_results = search(:node, node.graylog2['elasticsearch_query'])
+  if !es_results.empty?
+    es_servers = es_results.each { |n| n['ipaddress'] + ':9300' }.join(',')
+  else
+    es_servers = node['ipaddress']
+  end
+end
+
 # Create config files
 #
 template "/etc/graylog2.conf" do
