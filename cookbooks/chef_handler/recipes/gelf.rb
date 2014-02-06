@@ -8,15 +8,23 @@ if log_server
   end.run_action(:install)
 
   # Make sure the newly installed Gem is loaded.
-  Gem.clear_paths
-  require 'chef/gelf'
+  #Gem.clear_paths
+  #require 'chef/gelf'
+
+  #chef_handler "Chef::GELF::Handler" do
+  #  source "chef/gelf"
+  #  arguments({
+  #    :server => log_server['fqdn']
+  #  })
+
+  #  supports :exception => true, :report => true
+  #end.run_action(:enable)
 
   chef_handler "Chef::GELF::Handler" do
-    source "chef/gelf"
+    source "#{node['chef_handler']['handler_path']}/gelf.rb"
     arguments({
       :server => log_server['fqdn']
     })
-
-    supports :exception => true, :report => true
   end.run_action(:enable)
+
 end
