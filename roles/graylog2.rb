@@ -4,7 +4,7 @@ run_list [
     "recipe[java]",
     "recipe[elasticsearch]", 
     "recipe[mongodb]",
-    "recipe[graylog2]",
+    "recipe[graylog2::server]",
     "recipe[graylog2::web]"
     ]
 override_attributes(
