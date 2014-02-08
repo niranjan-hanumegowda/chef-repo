@@ -20,8 +20,12 @@ if log_server
   #  supports :exception => true, :report => true
   #end.run_action(:enable)
 
+  gem_package "gelf" do
+    action :nothing
+  end.run_action(:install)
+
   chef_handler "Chef::GELF::Handler" do
-    source "#{node['chef_handler']['handler_path']}/gelf_handler.rb"
+    source "#{node['chef_handler']['handler_path']}/gelf.rb"
     arguments({
       :host => log_server['fqdn']
     })
