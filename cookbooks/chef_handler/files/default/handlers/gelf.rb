@@ -11,7 +11,7 @@ class Chef
       attr_reader :options
 
       def options=(value = {})
-        @options = {:port => 12201, :facility => 'chef_client', :blacklist => {}, :host => nil, :report_host => nil }.merge(value)
+        @options = {:port => 12201, :facility => 'chef_client', :blacklist => {}, :host => 'chef.local', :report_host => nil }.merge(value)
       end
 
       def initialize(options = {})
