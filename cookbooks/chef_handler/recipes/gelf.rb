@@ -3,9 +3,9 @@ log_server = search(:node, "role:graylog2").first
 if log_server
   include_recipe "chef_handler::default"
 
-  gem_package "chef-gelf" do
-    action :nothing
-  end.run_action(:install)
+  #gem_package "chef-gelf" do
+  #  action :nothing
+  #end.run_action(:install)
 
   # Make sure the newly installed Gem is loaded.
   #Gem.clear_paths
@@ -21,10 +21,11 @@ if log_server
   #end.run_action(:enable)
 
   chef_handler "Chef::GELF::Handler" do
-    source "#{node['chef_handler']['handler_path']}/gelf.rb"
+    source "#{node['chef_handler']['handler_path']}/gelf_handler.rb"
     arguments({
       :host => log_server['fqdn']
     })
+    action :nothing
   end.run_action(:enable)
 
 end
