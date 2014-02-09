@@ -27,7 +27,8 @@ if log_server
   chef_handler "Chef::GELF::Handler" do
     source "#{node['chef_handler']['handler_path']}/gelf.rb"
     arguments({
-      :host => log_server['fqdn']
+      :host => log_server['fqdn'],
+      :custom_fields => node['chef_handler']['gelf']['custom_fields']
     })
     action :nothing
   end.run_action(:enable)

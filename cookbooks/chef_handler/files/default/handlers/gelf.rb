@@ -16,7 +16,8 @@ class Chef
           :port => '12201',
           :facility => 'chef_client',
           :blacklist => {},
-          :report_host => nil
+          :report_host => nil,
+          :custom_fields => {}
         }
         @options.merge! opts
 
@@ -28,20 +29,26 @@ class Chef
         begin
           if run_status.failed?
             Chef::Log.info "Notifying GELF server of FAILURE."
-            @notifier.notify!(:short_message => "Chef run FAILED on #{node.name}. Updated #{changes[:count]} resources.",
-                              :full_message => run_status.formatted_exception + "\n" + Array(backtrace).join("\n") + changes[:message],
-                              :level => ::GELF::Levels::FATAL,
-                              :host => host_name,
-                              :elapsed_time => elapsed_time,
-                              :resources_updated => changes[:count])
+            @report_hash = { :short_message => "Chef run FAILED on #{node.name}. Updated #{changes[:count]} resources.",
+                             :full_message => run_status.formatted_exception + "\n" + Array(backtrace).join("\n") + changes[:message],
+                             :level => ::GELF::Levels::FATAL,
+                             :status => "FAILURE",
+                             :host => host_name,
+                             :elapsed_time => elapsed_time,
+                             :resources_updated => changes[:count],
+                             :cookbook_versions => cookbook_versions }
+            @notifier.notify!( @report_hash.merge options[:custom_fields] )
           else
             Chef::Log.info "Notifying GELF server of SUCCESS."
-            @notifier.notify!(:short_message => "Chef run SUCCEEDED on #{node.name} in #{elapsed_time}. Updated #{changes[:count]} resources.",
-                              :full_message => changes[:message],
-                              :level => ::GELF::Levels::INFO,
-                              :host => host_name,
-                              :elapsed_time => elapsed_time,
-                              :resources_updated => changes[:count])
+            @report_hash = { :short_message => "Chef run SUCCEEDED on #{node.name} in #{elapsed_time}. Updated #{changes[:count]} resources.",
+                             :full_message => changes[:message],
+                             :level => ::GELF::Levels::INFO,
+                             :status => "SUCCESS",
+                             :host => host_name,
+                             :elapsed_time => elapsed_time,
+                             :resources_updated => changes[:count],
+                             :cookbook_versions => cookbook_versions }
+            @notifier.notify!( @report_hash.merge options[:custom_fields] )
           end
         rescue Exception => e
           # Capture any exceptions that happen as a result of transmission. i.e. Host address resolution errors.
@@ -71,6 +78,11 @@ class Chef
         end
 
         @changes = { :count => count, :message => message }
+      end
+
+      def cookbook_versions
+        cookbooks = run_context.cookbook_collection
+        @cookbook_versions = cookbooks.keys.map {|x| cookbooks[x].name.to_s + " " + cookbooks[x].version}
       end
 
     end
