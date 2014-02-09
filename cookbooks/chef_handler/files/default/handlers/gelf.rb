@@ -47,6 +47,7 @@ class Chef
                              :host => host_name,
                              :elapsed_time => elapsed_time,
                              :resources_updated => changes[:count],
+                             :sanitised => sanitised_changes,
                              :cookbook_versions => cookbook_versions }
             @notifier.notify!( @report_hash.merge options[:custom_fields] )
           end
@@ -63,9 +64,7 @@ class Chef
       end
 
       def changes
-        @changes unless @changes.nil?
-
-        lines = run_status.updated_resources.collect do |resource|
+        lines = sanitised_changes.collect do |resource|
           "recipe[#{resource.cookbook_name}::#{resource.recipe_name}] ran '#{resource.action}' on #{resource.resource_name} '#{resource.name}'"
         end
 
@@ -77,7 +76,24 @@ class Chef
           "No changes made."
         end
 
-        @changes = { :count => count, :message => message }
+        changes = { :count => count, :message => message }
+      end
+
+      def sanitised_changes
+        run_status.updated_resources.reject do |x|
+          cookbook = x.cookbook_name.to_s
+          if options[:blacklist].keys.include?(cookbook)
+            resource = x.resource_name.to_s
+            if options[:blacklist][cookbook].keys.include?(resource)
+              action = x.action
+              if action.is_a?(Array)
+                options[:blacklist][cookbook][resource].is_a?(Array) && options[:blacklist][cookbook][resource].include?(action.first.to_s)
+              else
+                options[:blacklist][cookbook][resource].is_a?(Array) && options[:blacklist][cookbook][resource].include?(action.to_s)
+              end
+            end
+          end 
+        end
       end
 
       def cookbook_versions

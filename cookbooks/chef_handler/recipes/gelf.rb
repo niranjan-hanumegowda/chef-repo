@@ -28,7 +28,8 @@ if log_server
     source "#{node['chef_handler']['handler_path']}/gelf.rb"
     arguments({
       :host => log_server['fqdn'],
-      :custom_fields => node['chef_handler']['gelf']['custom_fields']
+      :custom_fields => node['chef_handler']['gelf']['custom_fields'],
+      :blacklist => node['chef_handler']['gelf']['blacklist']
     })
     action :nothing
   end.run_action(:enable)

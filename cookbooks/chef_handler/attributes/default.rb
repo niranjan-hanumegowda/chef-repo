@@ -29,10 +29,3 @@ end
 
 default["chef_handler"]["handler_path"] = "#{File.expand_path(File.join(Chef::Config[:file_cache_path], '..'))}/handlers"
 
-# Custom GELF Fields that you would like to be indexed
-default["chef_handler"]["gelf"]["custom_fields"] = {
-  :chef_environment => node.chef_environment,
-  :ipaddress => node.ipaddress,
-  :os => node.os,
-  :uptime => node.uptime
-}
