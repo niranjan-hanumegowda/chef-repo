@@ -78,6 +78,12 @@ template "/etc/graylog2.conf" do
   notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
 end
 
+template "/etc/graylog2.drl" do
+  source "graylog2.drl.erb"
+  owner 'root' and group 'root' and mode 0644
+  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
+end
+
 # Create service
 #
 link "/etc/init.d/graylog2" do

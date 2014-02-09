@@ -52,7 +52,7 @@ class Chef
       protected
 
       def host_name
-        options[:host] || node[:fqdn]
+        options[:report_host] || node[:fqdn]
       end
 
       def changes

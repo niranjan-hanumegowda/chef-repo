@@ -1,0 +1,15 @@
+import org.graylog2.plugin.Message
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+rule "chef_client status"
+  when
+    m: Message( getField("facility") == "chef_client" )
+  then
+    Matcher matcher = Pattern.compile("Chef run (SUCCEEDED|FAILED) on .*").matcher(m.getMessage());
+
+    if (matcher.find()) {
+      m.addField("_status",matcher.group(1));
+    }
+
+  end
