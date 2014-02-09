@@ -47,7 +47,6 @@ class Chef
                              :host => host_name,
                              :elapsed_time => elapsed_time,
                              :resources_updated => changes[:count],
-                             :sanitised => sanitised_changes,
                              :cookbook_versions => cookbook_versions }
             @notifier.notify!( report_hash.merge options[:custom_fields] )
           end
@@ -98,7 +97,7 @@ class Chef
 
       def cookbook_versions
         cookbooks = run_context.cookbook_collection
-        @cookbook_versions = cookbooks.keys.map {|x| cookbooks[x].name.to_s + " " + cookbooks[x].version}
+        cookbooks.keys.map {|x| cookbooks[x].name.to_s + " " + cookbooks[x].version}
       end
 
     end
