@@ -1,7 +1,7 @@
 {
   "name": "graylog2",
   "description": "Installs/Configures graylog2",
-  "long_description": "graylog2 Cookbook\n=================\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - graylog2 needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### graylog2::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['graylog2']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### graylog2::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `graylog2` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[graylog2]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write your change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\n",
+  "long_description": "graylog2 Cookbook\n=================\nCookbook for managing Graylog2.\n\nRequirements\n------------\n#### packages\n- `elasticsearch` - graylog2 needs elasticsearch to persist and index log messages.\n- `mongodb` - graylog2 needs mongodb to store its configuration.\n\nAttributes\n----------\n#### graylog2::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['graylog2']['homedir']</tt></td>\n    <td>String</td>\n    <td>Graylog2 install location</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### graylog2::default\n\ne.g.\nJust include `graylog2` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[graylog2]\"\n  ]\n}\n```\n\nContributing\n------------\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write your change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: niranjan_hanumegowda@gap.com\n",
   "maintainer": "Gap, Inc.",
   "maintainer_email": "cookbooks@gap.com",
   "license": "Apache 2.0",
@@ -25,5 +25,5 @@
   },
   "recipes": {
   },
-  "version": "0.1.0"
+  "version": "0.1.1"
 }

@@ -1,23 +1,15 @@
 graylog2 Cookbook
 =================
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+Cookbook for managing Graylog2.
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
-
-e.g.
 #### packages
-- `toaster` - graylog2 needs toaster to brown your bagel.
+- `elasticsearch` - graylog2 needs elasticsearch to persist and index log messages.
+- `mongodb` - graylog2 needs mongodb to store its configuration.
 
 Attributes
 ----------
-TODO: List you cookbook attributes here.
-
-e.g.
 #### graylog2::default
 <table>
   <tr>
@@ -27,9 +19,9 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['graylog2']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
+    <td><tt>['graylog2']['homedir']</tt></td>
+    <td>String</td>
+    <td>Graylog2 install location</td>
     <td><tt>true</tt></td>
   </tr>
 </table>
@@ -37,7 +29,6 @@ e.g.
 Usage
 -----
 #### graylog2::default
-TODO: Write usage instructions for each cookbook.
 
 e.g.
 Just include `graylog2` in your node's `run_list`:
@@ -53,9 +44,6 @@ Just include `graylog2` in your node's `run_list`:
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write your change
@@ -65,4 +53,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: niranjan_hanumegowda@gap.com

@@ -1,0 +1,30 @@
+{
+  "name": "gapGraylog2",
+  "description": "Installs/Configures gapGraylog2",
+  "long_description": "gapGraylog2 Cookbook\n====================\nWrapper cookbook for Graylog2; Workarounds for Gap-specific implementation\n\nRequirements\n------------\n#### packages\n- `graylog2` - gapGraylog2 needs graylog2.\n\nAttributes\n----------\nNone\n\nUsage\n-----\n#### gapGraylog2::default\ne.g.\nJust include `gapGraylog2` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[gapGraylog2]\"\n  ]\n}\n```\n\nLicense and Authors\n-------------------\nAuthors: niranjan_hanumegowda@gap.com\n",
+  "maintainer": "Gap, Inc.",
+  "maintainer_email": "niranjan_hanumegowda@gap.com",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "graylog2": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.1.0"
+}

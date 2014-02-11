@@ -16,9 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-[Chef::Recipe, Chef::Resource].each { |l| l.send :include, ::Extensions }
-
-Erubis::Context.send(:include, Extensions::Templates)
 
 mongodb = "mongodb-#{node.mongodb[:version]}"
 

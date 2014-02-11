@@ -1,11 +1,9 @@
 name "graylog2"
-description "graylog2 role"
+description "Graylog2 Server role"
 run_list [
-    "recipe[java]",
+    "recipe[java::default]",
     "recipe[elasticsearch]", 
-    "recipe[mongodb]",
     "recipe[graylog2::server]",
-    "recipe[graylog2::web]"
     ]
 override_attributes(
   :java => {

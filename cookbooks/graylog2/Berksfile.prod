@@ -1,0 +1,4 @@
+chef_api :config
+
+cookbook 'elasticsearch', git: 'git://github.com/elasticsearch/cookbook-elasticsearch.git'
+cookbook 'graylog2', git: 'git@github.gapinc.dev:gap-cookbooks/graylog2.git', branch: 'master'

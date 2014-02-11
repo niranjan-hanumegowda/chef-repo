@@ -17,11 +17,6 @@
 # limitations under the License.
 #
 # 
-# These two lines enables us to load custom methods from 
-# files under 'libraries'
-[Chef::Recipe, Chef::Resource].each { |l| l.send :include, ::Extensions }
-Erubis::Context.send(:include, Extensions::Templates)
-
 
 include_recipe "graylog2::default"
 include_recipe "ark"
@@ -48,21 +43,21 @@ ark "graylog2-web" do
   not_if do
     link   = "#{node.graylog2[:dir]}/graylog2-web"
     target = "#{node.graylog2[:dir]}/graylog2-web-#{node.graylog2[:version]}"
-    binary = "#{target}/bin/graylog2ctl"
+    binary = "#{target}/bin/graylog2-web-interface"
 
     ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)
   end
 end
 
 if Chef::Config[:solo]
-  graylog2_servers = 'http://' + node.ipaddress + ':12900/'
+  graylog2_servers = 'http://' + node.fqdn + ':12900/'
 else
   es_results = search(:node, node.graylog2['elasticsearch_query'])
   if !es_results.empty?
-    graylog2_servers = es_results.map { |n| 'http://' + n.ipaddress + ':12900/' }.join(',')
+    graylog2_servers = es_results.map { |n| 'http://' + n.fqdn + ':12900/' }.join(',')
   else
-    log "Oops..Search results for Graylog2 Servers returned empty!! Settling for http://#{node.ipaddress}:12900/"
-    graylog2_servers = 'http://' + node.ipaddress + ':12900/'
+    log "Oops..Search results for Graylog2 Servers returned empty!! Settling for http://#{node.fqdn}:12900/"
+    graylog2_servers = 'http://' + node.fqdn + ':12900/'
   end
 end
 

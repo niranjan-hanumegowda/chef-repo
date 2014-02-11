@@ -19,7 +19,7 @@ default.graylog2[:web_download_url]  = "https://github.com/Graylog2/graylog2-web
 
 # === USER & PATHS
 #
-default.graylog2[:dir]       = "/usr/local"
+default.graylog2[:dir]       = "/opt"
 default.graylog2[:user]      = "graylog2"
 
 # === Attributes for various search/discovery
@@ -27,6 +27,7 @@ default.graylog2[:user]      = "graylog2"
 default.graylog2[:server] = "true"
 default.graylog2[:elasticsearch_cluster] = 'graylog2'
 default.graylog2[:elasticsearch_query] = "elasticsearch_cluster_name:#{node.graylog2[:elasticsearch_cluster]} AND chef_environment:#{node.chef_environment}"
+default.graylog2[:mongo_query] = "role:graylog2-primary AND chef_environment:#{node.chef_environment}"
 
 # === SETTINGS
 #

@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: graylog2
+# Cookbook Name:: gapGraylog2
 # Recipe:: default
 #
-# Copyright 2014, Custom, Inc.
+# Copyright 2014, Gap, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,24 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# 
 
-# Create user and group
-#
-group node.graylog2[:user] do
-  action   :create
-  system   true
+luser 'graylog2' do
+  user_name     'graylog2'
+  group_name    'graylog2'
+  home          '/opt/graylog2'
+  shell         "/bin/bash"
+  skeldir       "/etc/skel"
 end
 
-user node.graylog2[:user] do
-  comment  "graylog2 User"
-  home     "#{node.graylog2[:dir]}/graylog2"
-  shell    "/bin/bash"
-  gid      node.graylog2[:user]
-  supports :manage_home => false
-  action   :create
-  system   true
-end
+include_recipe "graylog2"
 
 # FIX: Work around the fact that Chef creates the directory even for `manage_home: false`
 bash "remove the graylog2 user home" do
