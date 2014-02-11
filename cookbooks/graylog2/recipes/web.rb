@@ -28,7 +28,7 @@ include_recipe "graylog2::default"
 #ark_prefix_home = node.graylog2[:dir] || node.ark[:prefix_home]
 
 #ark "graylog2-web" do
-#  url   node.graylog2[:web_download_url]
+#  url   node.graylog2[:web][:download_url]
 #  owner node.graylog2[:user]
 #  group node.graylog2[:user]
 #  version node.graylog2[:version]
@@ -49,24 +49,24 @@ include_recipe "graylog2::default"
 #  end
 #end
 
-remote_file "#{Chef::Config[:file_cache_path]}/#{node.graylog2[:web_tarball]}" do
-  source node.graylog2[:web_download_url]
+remote_file "#{Chef::Config[:file_cache_path]}/#{node.graylog2[:web][:tarball]}" do
+  source node.graylog2[:web][:download_url]
   mode 00644
   checksum node.graylog2[:checksum]
-  ## notifies :run, "execute[tar]", :immediately
+  ## notifies :run, "execute[unpack-web]", :immediately
 end
 
-execute "tar" do
+execute "unpack-web" do
   user  "root"
   group "root"
   cwd   node.graylog2[:install_dir]
   ## action :nothing
-  command "tar xzf #{Chef::Config[:file_cache_path]}/#{node.graylog2[:web_tarball]}"
+  command "tar xzf #{Chef::Config[:file_cache_path]}/#{node.graylog2[:web][:tarball]}"
   creates "#{node.graylog2[:install_dir]}/graylog2-web-interface-#{node.graylog2[:version]}"
-  notifies :run, "execute[chown]", :immediately
+  notifies :run, "execute[chown-web]", :immediately
 end
 
-execute "chown" do
+execute "chown-web" do
   command "chown -R #{node.graylog2[:user]}:#{node.graylog2[:user]} #{node.graylog2[:install_dir]}/graylog2-web-interface-#{node.graylog2[:version]}"
   action :nothing
 end
@@ -89,7 +89,7 @@ end
 
 # Create config files
 #
-template "#{node.graylog2[:dir]}/graylog2-web/conf/graylog2-web-interface.conf" do
+template "#{node.graylog2[:web][:home]}/conf/graylog2-web-interface.conf" do
   source "graylog2-web-interface.conf.erb"
   owner node.graylog2[:user] and group node.graylog2[:user] and mode 0644
   variables(
@@ -101,7 +101,7 @@ end
 # Create service
 #
 link "/etc/init.d/graylog2-web" do
-  to "#{node.graylog2[:dir]}/graylog2-web/bin/graylog2-web-interface"
+  to "#{node.graylog2[:web][:home]}/bin/graylog2-web-interface"
 end
 
 service "graylog2-web" do

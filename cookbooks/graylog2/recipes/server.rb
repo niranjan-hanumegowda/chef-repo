@@ -53,20 +53,20 @@ remote_file "#{Chef::Config[:file_cache_path]}/#{node.graylog2[:server_tarball]}
   source node.graylog2[:download_url]
   mode 00644
   checksum node.graylog2[:checksum]
-  ## notifies :run, "execute[tar]", :immediately
+  ## notifies :run, "execute[unpack-server]", :immediately
 end
 
-execute "tar" do
+execute "unpack-server" do
   user  "root"
   group "root"
   cwd   node.graylog2[:install_dir]
   ## action :nothing
   command "tar xzf #{Chef::Config[:file_cache_path]}/#{node.graylog2[:server_tarball]}"
   creates "#{node.graylog2[:install_dir]}/graylog2-server-#{node.graylog2[:version]}"
-  notifies :run, "execute[chown]", :immediately
+  notifies :run, "execute[chown-server]", :immediately
 end
 
-execute "chown" do
+execute "chown-server" do
   command "chown -R #{node.graylog2[:user]}:#{node.graylog2[:user]} #{node.graylog2[:install_dir]}/graylog2-server-#{node.graylog2[:version]}"
   action :nothing
 end
@@ -121,7 +121,7 @@ end
 # Create service
 #
 link "/etc/init.d/graylog2" do
-  to "#{node.graylog2[:dir]}/graylog2/bin/graylog2ctl"
+  to "#{node.graylog2[:home]}/bin/graylog2ctl"
 end
 
 service "graylog2" do
