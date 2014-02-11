@@ -27,7 +27,7 @@ end
 
 user node.graylog2[:user] do
   comment  "graylog2 User"
-  home     "#{node.graylog2[:dir]}/graylog2"
+  home     node.graylog2[:home]
   shell    "/bin/bash"
   gid      node.graylog2[:user]
   supports :manage_home => false
@@ -38,7 +38,7 @@ end
 # FIX: Work around the fact that Chef creates the directory even for `manage_home: false`
 bash "remove the graylog2 user home" do
   user     'root'
-  code     "rm -rf  #{node.graylog2[:dir]}/graylog2"
-  not_if   "test -L #{node.graylog2[:dir]}/graylog2"
-  only_if  "test -d #{node.graylog2[:dir]}/graylog2"
+  code     "rm -rf  #{node.graylog2[:home]}"
+  not_if   "test -L #{node.graylog2[:home]}"
+  only_if  "test -d #{node.graylog2[:home]}"
 end

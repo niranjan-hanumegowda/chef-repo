@@ -19,34 +19,60 @@
 # 
 
 include_recipe "graylog2::default"
-include_recipe "ark"
+#include_recipe "ark"
 
 
 # Download, extract, symlink the graylog2 libraries and binaries
 #
-ark_prefix_root = node.graylog2[:dir] || node.ark[:prefix_root]
-ark_prefix_home = node.graylog2[:dir] || node.ark[:prefix_home]
+#ark_prefix_root = node.graylog2[:dir] || node.ark[:prefix_root]
+#ark_prefix_home = node.graylog2[:dir] || node.ark[:prefix_home]
 
-ark "graylog2" do
-  url   node.graylog2[:download_url]
-  owner node.graylog2[:user]
-  group node.graylog2[:user]
-  version node.graylog2[:version]
-  has_binaries ['bin/graylog2ctl']
+#ark "graylog2" do
+#  url   node.graylog2[:download_url]
+#  owner node.graylog2[:user]
+#  group node.graylog2[:user]
+#  version node.graylog2[:version]
+#  has_binaries ['bin/graylog2ctl']
+#  checksum node.graylog2[:checksum]
+#  prefix_root   ark_prefix_root
+#  prefix_home   ark_prefix_home
+
+#  notifies :start,   'service[graylog2]'
+#  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
+
+#  not_if do
+#    link   = "#{node.graylog2[:dir]}/graylog2"
+#    target = "#{node.graylog2[:dir]}/graylog2-#{node.graylog2[:version]}"
+#    binary = "#{target}/bin/graylog2ctl"
+
+#    ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)
+#  end
+#end
+
+remote_file "#{Chef::Config[:file_cache_path]}/#{node.graylog2[:server_tarball]}" do
+  source node.graylog2[:download_url]
+  mode 00644
   checksum node.graylog2[:checksum]
-  prefix_root   ark_prefix_root
-  prefix_home   ark_prefix_home
+  ## notifies :run, "execute[tar]", :immediately
+end
 
-  notifies :start,   'service[graylog2]'
-  notifies :restart, 'service[graylog2]' unless node.graylog2[:skip_restart]
+execute "tar" do
+  user  "root"
+  group "root"
+  cwd   node.graylog2[:install_dir]
+  ## action :nothing
+  command "tar xzf #{Chef::Config[:file_cache_path]}/#{node.graylog2[:server_tarball]}"
+  creates "#{node.graylog2[:install_dir]}/graylog2-server-#{node.graylog2[:version]}"
+  notifies :run, "execute[chown]", :immediately
+end
 
-  not_if do
-    link   = "#{node.graylog2[:dir]}/graylog2"
-    target = "#{node.graylog2[:dir]}/graylog2-#{node.graylog2[:version]}"
-    binary = "#{target}/bin/graylog2ctl"
+execute "chown" do
+  command "chown -R #{node.graylog2[:user]}:#{node.graylog2[:user]} #{node.graylog2[:install_dir]}/graylog2-server-#{node.graylog2[:version]}"
+  action :nothing
+end
 
-    ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)
-  end
+link node.graylog2[:home] do
+  to "#{node.graylog2[:install_dir]}/graylog2-server-#{node.graylog2[:version]}"
 end
 
 if Chef::Config[:solo]

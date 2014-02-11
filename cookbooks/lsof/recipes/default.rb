@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-%w(lsof telnet nc vim).each do |p|
+%w(lsof telnet nc).each do |p|
   package p do
     action [:install]
   end
